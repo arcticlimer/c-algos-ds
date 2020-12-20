@@ -7,11 +7,13 @@
 struct Node *ll__from_array(int *data_array, int len);
 void ll__display(struct Node *list);
 void ll__push(struct Node **head, int value);
-void ll__shift(struct Node **head, int value);
+void ll__unshift(struct Node **head, int value);
+int ll__shift(struct Node *head);
 int ll__pop(struct Node *head);
 void ll__insert(struct Node **head, int at, int value);
 void ll__reverse(struct Node **head);
 void ll__delete(struct Node **head, int value);
+void ll__free(struct Node *head);
 
 int main() {
     int array[ARRAY_SIZE] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
@@ -19,7 +21,7 @@ int main() {
     ll__display(ll);
     ll__push(&ll, 777);
     ll__display(ll);
-    ll__shift(&ll, 4231);
+    ll__unshift(&ll, 4231);
     ll__display(ll);
     printf(" Popped: %d\n", ll__pop(ll));
     ll__display(ll);
@@ -31,6 +33,9 @@ int main() {
     ll__display(ll);
     ll__pop(ll);
     ll__display(ll);
+    printf("Shifted: %d\n", ll__shift(ll));
+    ll__display(ll);
+    ll__free(ll);
 
     return 0;
 }
@@ -68,7 +73,7 @@ void ll__push(struct Node **head, int value) {
 }
 
 
-void ll__shift(struct Node **head, int value) {
+void ll__unshift(struct Node **head, int value) {
     struct Node *node = malloc(sizeof(struct Node));
     node->data = value;
     node->next = *head;
@@ -104,6 +109,16 @@ void ll__delete(struct Node **head, int target) {
 }
 
 
+void ll__free(struct Node *head) {
+    while(head->next != NULL) {
+        struct Node *tmp = head;
+        head = head->next;
+        free(tmp);
+        tmp = NULL;
+    }
+}
+
+
 int ll__pop(struct Node *head) {
     struct Node *tmp_ptr = head, *prev;
 
@@ -119,6 +134,13 @@ int ll__pop(struct Node *head) {
     prev->next = NULL;
     free(tmp_ptr);
     return data;
+}
+
+
+int ll__shift(struct Node *head) {
+    int value = head->data;
+    (*head) = *head->next;
+    return value;
 }
 
 
