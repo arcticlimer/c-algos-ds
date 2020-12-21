@@ -34,13 +34,13 @@ int binary_search(int *haystack, int size, int needle) {
         else if (*(haystack + middle) > needle) {
             right_idx = middle - 1;
         }
-        // If we found the item, return 1.
+        // If we found the item, return its position.
         else {
-            return 1;
+            return middle - 1;
         }
     }
-    // If the item is not found, return 0.
-    return 0;
+    // If the item is not found, return -1.
+    return -1;
 }
 
 // Helper function to create a haystack of `len` size.

@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include <assert.h>
 #include <stdio.h>
 #include <time.h>
@@ -29,7 +28,7 @@ int main() {
 
 // Selection sort is a simple O(n²) algorithm.
 // https://en.wikipedia.org/wiki/Selection_sort
-void selection_sort(int *arr, int len) {
+void selection_sort(int arr[], int len) {
     // Going through each item on the array
     for (int i = 0; i < len - 1; i++) {
         int min = i;
@@ -37,14 +36,14 @@ void selection_sort(int *arr, int len) {
         // and check if it's lesser than the current minimum.
         // If it is, it become the new `min` value.
         for (int j = i + 1; j < len; j++) {
-            if (*(arr + j) < *(arr + min)) min = j;
+            if (arr[j] < arr[min]) min = j;
         }
 
         if (min != i) {
             // Swapping a[i] and a[min] values
             int tmp = *(arr + i);
-            *(arr + i) = *(arr + min);
-            *(arr + min) = tmp;
+            arr[i] = arr[min];
+            arr[min] = tmp;
         }
     }
 }
