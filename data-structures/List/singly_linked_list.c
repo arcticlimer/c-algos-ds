@@ -42,6 +42,7 @@ LinkedList *from_array(int *buffer, int size) {
   list->head = NULL;
   list->length = 0;
 
+  // Allocate a new list and for each element of the array, push it to the list.
   for (int i = 0; i < size; i++) {
     push(list, buffer[i]);
   }
@@ -51,6 +52,10 @@ LinkedList *from_array(int *buffer, int size) {
 
 void push(LinkedList *list, int data) {
   Node *node = malloc(sizeof(Node));
+  // We create a new node, make its next node be the actual list head and then
+  // turn the list head into this new node.
+  // old: 1 -> 2 -> 3 -> 4
+  // new: 5 -> 1 -> 2 -> 3 -> 4
   node->data = data;
   node->next = list->head;
   list->head = node;
@@ -60,6 +65,7 @@ void push(LinkedList *list, int data) {
 void insert(LinkedList *list, int position, int data) {
   Node *head = list->head;
 
+  // We go advance the list until the index `position`
   for (int i = 0; i < position - 1; i++) {
     if (head != NULL) {
       head = head->next;
@@ -67,6 +73,7 @@ void insert(LinkedList *list, int position, int data) {
   }
 
   if (head != NULL) {
+    // Do the same thing as `push`, but now with two nodes.
     Node *new_head = malloc(sizeof(Node));
     new_head->data = data;
     new_head->next = head->next;
@@ -84,7 +91,12 @@ void remove_elem(LinkedList *list, int position) {
     }
   }
 
+  // Pretty much the same as insert, but we now free the node at the index
+  // `position` and set it to its `next` node.
   if (head != NULL && head->next != NULL) {
+    if (head->next != NULL) {
+      free_node(head->next);
+    }
     head->next = head->next->next;
     list->length--;
   }
@@ -120,6 +132,7 @@ void show(LinkedList *list) {
 void free_list(LinkedList *list) {
   Node *head = list->head;
 
+  // For each node, free it and after that free the allocated list.
   while (head != NULL) {
     Node *actual = head;
     head = actual->next;
