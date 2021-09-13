@@ -7,14 +7,17 @@ typedef struct {
   int *data;
 } DynamicArray;
 
-DynamicArray init_array();
-void _dynamic_array_realloc(DynamicArray *dyn);
-void push(DynamicArray *dyn, int data);
-void insert(DynamicArray *dyn, int data, int idx);
-void delete (DynamicArray *dyn, int idx);
-void show(DynamicArray *dyn);
+// Helper functions
 inline void free_array(DynamicArray *dyn);
-inline int at(DynamicArray *dyn, int idx);
+void _dynamic_array_realloc(DynamicArray *dyn);
+DynamicArray init_array();
+
+// List ADT API
+void push(DynamicArray *dyn, int data);            // O(1)
+void insert(DynamicArray *dyn, int data, int idx); // O(n)
+void delete (DynamicArray *dyn, int idx);          // O(n)
+void show(DynamicArray *dyn);                      // O(n)
+inline int at(DynamicArray *dyn, int idx);         // O(1)
 
 int main() {
   DynamicArray dyn = init_array();
