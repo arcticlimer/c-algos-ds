@@ -1,27 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct {
-  int length;
-  int capacity;
-  int *data;
-} DynamicArray;
+#include "dynamic_array.h"
 
 // Helper functions
-DynamicArray *init_array();                       // O(1)
-DynamicArray *from_array(int *array, int length); // O(n)
-void free_array(DynamicArray *dyn);               // O(1)
-void _dynamic_array_realloc(DynamicArray *dyn);   // O(1)
-
-// List ADT API
-void push(DynamicArray *dyn, int data);            // O(1)
-void insert(DynamicArray *dyn, int data, int idx); // O(n)
-void delete (DynamicArray *dyn, int idx);          // O(n)
-inline int at(DynamicArray *dyn, int idx);         // O(1)
-
-// Extras
-void show(DynamicArray *dyn);    // O(n)
-void reverse(DynamicArray *dyn); // O(n)
+int multiply_by_four(int x) {
+  return x * 4;
+}
 
 int main() {
   DynamicArray *dyn = init_array();
@@ -33,7 +18,7 @@ int main() {
   // Insertion/Deletion
   printf("Before deleting at position 2\n");
   show(dyn);
-  delete (dyn, 2);
+  delete_elem(dyn, 2);
   printf("After deleting at position 2\n");
   show(dyn);
   printf("Before inserting 777 at position 2\n");
@@ -47,6 +32,11 @@ int main() {
   reverse(dyn);
   show(dyn);
 
+  // Mappings
+  puts("after mapping the array with multiply_by_four");
+  map(dyn, &multiply_by_four);
+  show(dyn);
+
   free_array(dyn);
 }
 
@@ -55,8 +45,6 @@ DynamicArray *init_array() {
   dyn->length = 0;
   dyn->capacity = 32;
   dyn->data = malloc(32 * sizeof(int));
-  /* dyn = (DynamicArray*){ */
-  /*     .length = 0, .capacity = 32, .data = malloc(32 * sizeof(int))}; */
   return dyn;
 }
 
@@ -88,7 +76,7 @@ void insert(DynamicArray *dyn, int data, int idx) {
   dyn->length++;
 }
 
-void delete (DynamicArray *dyn, int idx) {
+void delete_elem(DynamicArray *dyn, int idx) {
   // Shifting elements to the right, overwriting element at `idx` and decreasing
   // its length
   for (int i = idx; i < dyn->length; i++) {
@@ -108,7 +96,7 @@ void reverse(DynamicArray *dyn) {
   dyn->data = new_buffer;
 }
 
-void show(DynamicArray *dyn) {
+void show(const DynamicArray *dyn) {
   // Iterate through the elements and print them
   printf("[");
   for (int i = 0; i < dyn->length - 1; i++) {
@@ -117,7 +105,7 @@ void show(DynamicArray *dyn) {
   printf("%d]\n", dyn->data[dyn->length - 1]);
 }
 
-DynamicArray *from_array(int *array, int length) {
+DynamicArray *from_array(const int *array, int length) {
   DynamicArray *dyn = init_array();
 
   for (int i = 0; i < length; i++) {
@@ -135,4 +123,10 @@ void free_array(DynamicArray *dyn) {
   dyn = NULL;
 }
 
-inline int at(DynamicArray *dyn, int idx) { return dyn->data[idx]; }
+void map(DynamicArray *dyn, int (*f)(int)) {
+  for (int i =0; i < dyn->length; i++) {
+    dyn->data[i] = (*f)(dyn->data[i]);
+  }
+}
+
+inline int at(const DynamicArray *dyn, int idx) { return dyn->data[idx]; }
