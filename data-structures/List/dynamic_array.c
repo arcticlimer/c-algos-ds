@@ -4,9 +4,7 @@
 #include "dynamic_array.h"
 
 // Helper functions
-int multiply_by_four(int x) {
-  return x * 4;
-}
+int multiply_by_four(int x) { return x * 4; }
 
 int main() {
   DynamicArray *dyn = init_array();
@@ -124,7 +122,7 @@ void free_array(DynamicArray *dyn) {
 }
 
 void map(DynamicArray *dyn, int (*f)(int)) {
-  for (int i =0; i < dyn->length; i++) {
+  for (int i = 0; i < dyn->length; i++) {
     dyn->data[i] = (*f)(dyn->data[i]);
   }
 }

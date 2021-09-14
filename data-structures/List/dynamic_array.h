@@ -19,8 +19,8 @@ void insert(DynamicArray *dyn, int data, int idx); // O(n)
 inline int at(const DynamicArray *dyn, int idx);   // O(1)
 
 // Extras
-void show(const DynamicArray *dyn);               // O(n)
-void reverse(DynamicArray *dyn);                  // O(n)
+void show(const DynamicArray *dyn);         // O(n)
+void reverse(DynamicArray *dyn);            // O(n)
 void map(DynamicArray *dyn, int (*f)(int)); // O(n)
 
 #endif // !DYNAMIC_ARRAY_H
