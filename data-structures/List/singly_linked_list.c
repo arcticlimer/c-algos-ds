@@ -1,28 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Node {
-  int data;
-  struct Node *next;
-} Node;
-
-typedef struct {
-  Node *head;
-  int length;
-} LinkedList;
-
-// Helper functions
-LinkedList *from_array(int *buffer, int size); // O(n)
-void free_list(LinkedList *list);              // O(n)
-void free_node(Node *node);                    // O(1)
-
-// List ADT API
-void push(LinkedList *list, int data);                 // O(1)
-void remove_elem(LinkedList *list, int position);      // O(n)
-void insert(LinkedList *list, int position, int data); // O(n)
-void show(LinkedList *list);                           // O(n)
-int length(LinkedList *list);                          // O(1)
-int at(LinkedList *list, int position);                // O(n)
+#include "singly_linked_list.h"
 
 int main() {
   int array[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -34,6 +13,10 @@ int main() {
   show(list);
   printf("element at position 5: %d\n", at(list, 5));
   printf("The size of the list is: %d\n", length(list));
+  // TODO: reversing
+  /* puts("Linked list after reversing"); */
+  /* reverse(list); */
+  /* show(list); */
   free_list(list);
 }
 
@@ -94,10 +77,11 @@ void remove_elem(LinkedList *list, int position) {
   // Pretty much the same as insert, but we now free the node at the index
   // `position` and set it to its `next` node.
   if (head != NULL && head->next != NULL) {
+    Node *new_head = head->next->next;
     if (head->next != NULL) {
       free_node(head->next);
     }
-    head->next = head->next->next;
+    head->next = new_head;
     list->length--;
   }
 }
@@ -123,8 +107,12 @@ void show(LinkedList *list) {
   // TODO: Maybe make printing prettier
   printf("[");
   while (head != NULL) {
-    printf("%d, ", head->data);
+    printf("%d", head->data);
     head = head->next;
+
+    if (head != NULL) {
+      printf(" -> ");
+    }
   }
   printf("]\n");
 }
@@ -146,4 +134,8 @@ void free_list(LinkedList *list) {
 void free_node(Node *node) {
   free(node);
   node = NULL;
+}
+
+void reverse(LinkedList *list) {
+  // TODO
 }

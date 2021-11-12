@@ -11,7 +11,7 @@
         in
           rec {
             devShell = pkgs.mkShell {
-              buildInputs = with pkgs; [ gcc ccls valgrind ];
+              buildInputs = with pkgs; [ gcc gdb ccls valgrind ];
             };
           }
     );
