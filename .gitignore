@@ -2,3 +2,6 @@
 .direnv/*
 vgcore*
 main
+.gdb_history
+*.o
+*.out
