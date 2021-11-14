@@ -15,6 +15,7 @@ int main() {
   print_list(queue->list);
   enqueue(queue, dequeue(queue));
   print_list(queue->list);
+  free_queue(queue);
 }
 
 Queue *init_queue() {
